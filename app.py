@@ -43,6 +43,8 @@ def generate_paper():
     Output Type: {output_type}
     """
 
+
+
     try:
         # Call Groq API
         response = client.chat.completions.create(
