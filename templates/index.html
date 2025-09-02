@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Research Paper Writer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    .card {
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0px 8px 30px rgba(0,0,0,0.25);
+      padding: 30px;
+      color: #fff;
+      max-width: 600px;
+      margin: auto;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    .form-control, .form-select {
+      border-radius: 12px;
+      padding: 12px;
+      border: none;
+      outline: none;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #5a6fd6, #6a3f9e);
+      transform: translateY(-2px);
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    }
+    #loadingSpinner {
+      display: none;
+      margin-top: 20px;
+    }
+    #result {
+      display: none;
+      margin-top: 25px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <header>
+    <h1><i class="bi bi-journal-text"></i> AI Research Paper Writer</h1>
+    <p>Generate professional research drafts in seconds 🚀</p>
+  </header>
+
+  <!-- Main Card -->
+  <div class="card">
+    <form id="paperForm">
+      <div class="mb-3">
+        <label for="topic" class="form-label">Research Topic</label>
+        <input type="text" class="form-control" id="topic" name="topic" placeholder="e.g. AI in Healthcare" required>
+      </div>
+      <div class="mb-3">
+        <label for="format" class="form-label">Paper Format</label>
+        <select class="form-select" id="format" name="format">
+          <option value="ieee">IEEE</option>
+          <option value="springer">Springer</option>
+          <option value="apa">APA</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="length" class="form-label">Paper Length</label>
+        <select class="form-select" id="length" name="length">
+          <option value="short">Short (1-2 pages)</option>
+          <option value="medium">Medium (3-5 pages)</option>
+          <option value="long">Long (6+ pages)</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="outputType" class="form-label">Output Type</label>
+        <select class="form-select" id="outputType" name="outputType">
+          <option value="summary">Summary</option>
+          <option value="abstract">Abstract Only</option>
+          <option value="full">Full Draft</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="bi bi-magic"></i> Generate Paper
+      </button>
+    </form>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="text-center">
+      <div class="spinner-border text-light mt-3" role="status"></div>
+      <p>Generating your paper... please wait</p>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result">
+      <h5>📄 Generated Paper:</h5>
+      <p id="paperContent">Your paper will appear here...</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 AI Research Paper Writer | Hackathon Project</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById("paperForm");
+    const spinner = document.getElementById("loadingSpinner");
+    const result = document.getElementById("result");
+    const paperContent = document.getElementById("paperContent");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      spinner.style.display = "block";
+      result.style.display = "none";
+
+      const topic = document.getElementById("topic").value;
+      const format = document.getElementById("format").value;
+      const length = document.getElementById("length").value;
+      const outputType = document.getElementById("outputType").value;
+
+      try {
+        const response = await fetch("/generate-paper", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic, format, length, outputType })
+        });
+
+        const data = await response.json();
+        spinner.style.display = "none";
+
+        if (data.success) {
+          result.style.display = "block";
+          paperContent.innerText = data.paper;
+        } else {
+          result.style.display = "block";
+          paperContent.innerText = "⚠️ Error: " + data.error;
+        }
+      } catch (err) {
+        spinner.style.display = "none";
+        result.style.display = "block";
+        paperContent.innerText = "⚠️ Request failed: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
