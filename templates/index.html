@@ -7,181 +7,1208 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
-    body {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1a202c;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    /* Header Styles */
     header {
       text-align: center;
-      margin-bottom: 40px;
+      padding: 100px 0 80px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(240, 147, 251, 0.95) 100%);
+      backdrop-filter: blur(30px);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+      25% { transform: translateY(-15px) rotate(0.5deg) scale(1.02); }
+      50% { transform: translateY(-8px) rotate(-0.5deg) scale(0.98); }
+      75% { transform: translateY(-20px) rotate(0.3deg) scale(1.01); }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; transform: scaleX(1); }
+      50% { opacity: 0.8; transform: scaleX(1.2); }
+    }
+
     header h1 {
-      font-weight: 700;
-      font-size: 2.5rem;
+      font-size: 4.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 24px;
+      letter-spacing: -0.04em;
+      text-shadow:
+        0 0 20px rgba(255, 255, 255, 0.5),
+        0 0 40px rgba(102, 126, 234, 0.3),
+        0 0 60px rgba(118, 75, 162, 0.2);
+      position: relative;
+      z-index: 3;
+      animation: titleGlow 4s ease-in-out infinite alternate;
     }
+
+    @keyframes titleGlow {
+      from {
+        text-shadow:
+          0 0 20px rgba(255, 255, 255, 0.4),
+          0 0 40px rgba(102, 126, 234, 0.2),
+          0 0 60px rgba(118, 75, 162, 0.1);
+      }
+      to {
+        text-shadow:
+          0 0 30px rgba(255, 255, 255, 0.6),
+          0 0 60px rgba(102, 126, 234, 0.4),
+          0 0 90px rgba(118, 75, 162, 0.3),
+          0 0 120px rgba(240, 147, 251, 0.2);
+      }
+    }
+
     header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.95);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-weight: 300;
+      position: relative;
+      z-index: 3;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .card {
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0px 8px 30px rgba(0,0,0,0.25);
-      padding: 30px;
-      color: #fff;
-      max-width: 600px;
-      margin: auto;
+
+    /* Navigation Bar */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 16px 0;
+      z-index: 1000;
+      transform: translateY(-100%);
+      animation: slideDown 0.8s ease-out 0.5s forwards;
     }
-    .form-label {
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: #4a5568;
+      text-decoration: none;
       font-weight: 500;
+      transition: color 0.3s ease;
     }
+
+    .nav-link:hover {
+      color: #667eea;
+    }
+
+    /* Main Content */
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+      padding: 80px 0;
+    }
+
+    /* Form Section */
+    .form-section {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(30px);
+      border-radius: 28px;
+      padding: 48px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12),
+                  0 0 0 1px rgba(255, 255, 255, 0.1),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      border-radius: 28px 28px 0 0;
+    }
+
+    .form-section h2 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 40px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-group {
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .form-label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+    }
+
     .form-control, .form-select {
-      border-radius: 12px;
-      padding: 12px;
-      border: none;
+      width: 100%;
+      padding: 20px 24px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       outline: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+      z-index: 1;
     }
-    .btn-primary {
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      border: none;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: bold;
+
+    .form-control:focus, .form-select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15),
+                  0 8px 24px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+      background: #ffffff;
+    }
+
+    .form-control::placeholder {
+      color: #a0aec0;
+      font-style: italic;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      padding: 24px;
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      position: relative;
       transition: all 0.3s ease;
     }
+
+    .checkbox-group:hover {
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      accent-color: #667eea;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      font-size: 1rem;
+      color: #4a5568;
+      font-weight: 600;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 20px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      border: none;
+      border-radius: 16px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
     .btn-primary:hover {
-      background: linear-gradient(90deg, #5a6fd6, #6a3f9e);
-      transform: translateY(-2px);
-      box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(102, 126, 234, 0.4);
     }
-    #loadingSpinner {
-      display: none;
-      margin-top: 20px;
+
+    .btn-primary:active {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
     }
-    #result {
+
+    .btn-primary i {
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    /* Results Section */
+    .results-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .results-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    /* Loading States */
+    .loading-overlay {
       display: none;
-      margin-top: 25px;
-      background: rgba(255,255,255,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Agent Progress */
+    .agent-progress {
+      margin-bottom: 32px;
+    }
+
+    .progress-item {
+      background: #f7fafc;
       border-radius: 12px;
-      padding: 15px;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border-left: 4px solid #667eea;
+      animation: slideIn 0.5s ease-out;
     }
+
+    .progress-item strong {
+      color: #2d3748;
+    }
+
+    .progress-item span {
+      color: #718096;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Results Display */
+    .result-content {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #e2e8f0;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .result-content h3 {
+      color: #1a202c;
+      margin-bottom: 16px;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .result-content p {
+      color: #4a5568;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    /* Visualization */
+    .visualization-container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    .visualization-container h4 {
+      color: #1a202c;
+      margin-bottom: 16px;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .visualization-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    /* Export Buttons */
+    .export-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary, .btn-danger, .btn-info {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .btn-secondary {
+      background: #718096;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #5a67d8;
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: #e53e3e;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c53030;
+      transform: translateY(-1px);
+    }
+
+    .btn-info {
+      background: #3182ce;
+      color: white;
+    }
+
+    .btn-info:hover {
+      background: #2c5282;
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
     footer {
-      margin-top: 40px;
-      font-size: 0.85rem;
-      opacity: 0.7;
+      text-align: center;
+      padding: 40px 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px 0;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+      }
+
+      .form-section, .results-section {
+        padding: 24px;
+      }
+
+      .export-buttons {
+        flex-direction: column;
+      }
+    }
+
+    /* Particle Effects */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(102, 126, 234, 0.3);
+      border-radius: 50%;
+      animation: particleFloat 8s linear infinite;
+    }
+
+    .particle:nth-child(2n) {
+      background: rgba(118, 75, 162, 0.3);
+      animation-duration: 6s;
+    }
+
+    .particle:nth-child(3n) {
+      background: rgba(240, 147, 251, 0.3);
+      animation-duration: 10s;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Advanced Animations */
+    .fade-in {
+      animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(40px) scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .bounce-in {
+      animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.3);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      70% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Hover Effects */
+    .form-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    .results-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Pulse Animation for Interactive Elements */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+      }
+    }
+
+    /* Gradient Text Effects */
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Glass Morphism Enhancement */
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Advanced Button Effects */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-primary:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* Enhanced Focus States */
+    .form-control:focus, .form-select:focus {
+      position: relative;
+    }
+
+    .form-control:focus::before, .form-select:focus::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+      border-radius: 18px;
+      z-index: -1;
+      animation: borderGlow 2s infinite;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Loading Animation Enhancement */
+    .spinner {
+      position: relative;
+    }
+
+    .spinner::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 2px solid transparent;
+      border-top: 2px solid rgba(102, 126, 234, 0.3);
+      border-radius: 50%;
+      animation: spinReverse 1.5s linear infinite;
+    }
+
+    @keyframes spinReverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
     }
   </style>
 </head>
 <body>
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <i class="bi bi-journal-text"></i> AI Writer
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
 
-  <!-- Hero Section -->
-  <header>
-    <h1><i class="bi bi-journal-text"></i> AI Research Paper Writer</h1>
-    <p>Generate professional research drafts in seconds 🚀</p>
-  </header>
+  <div class="container">
+    <!-- Hero Section -->
+    <header>
+      <h1><i class="bi bi-journal-text"></i> AI Research Paper Writer</h1>
+      <p>Transform your ideas into professionally formatted research papers with advanced AI assistance and multi-agent collaboration</p>
+    </header>
 
-  <!-- Main Card -->
-  <div class="card">
-    <form id="paperForm">
-      <div class="mb-3">
-        <label for="topic" class="form-label">Research Topic</label>
-        <input type="text" class="form-control" id="topic" name="topic" placeholder="e.g. AI in Healthcare" required>
-      </div>
-      <div class="mb-3">
-        <label for="format" class="form-label">Paper Format</label>
-        <select class="form-select" id="format" name="format">
-          <option value="ieee">IEEE</option>
-          <option value="springer">Springer</option>
-          <option value="apa">APA</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="length" class="form-label">Paper Length</label>
-        <select class="form-select" id="length" name="length">
-          <option value="short">Short (1-2 pages)</option>
-          <option value="medium">Medium (3-5 pages)</option>
-          <option value="long">Long (6+ pages)</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="outputType" class="form-label">Output Type</label>
-        <select class="form-select" id="outputType" name="outputType">
-          <option value="summary">Summary</option>
-          <option value="abstract">Abstract Only</option>
-          <option value="full">Full Draft</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary w-100">
-        <i class="bi bi-magic"></i> Generate Paper
-      </button>
-    </form>
+    <!-- Main Content Grid -->
+    <div class="main-content">
+      <!-- Form Section -->
+      <div class="form-section slide-up">
+        <h2>🚀 Generate Your Paper</h2>
+        <form id="paperForm">
+          <div class="form-group">
+            <label for="topic" class="form-label">Research Topic</label>
+            <input type="text" class="form-control" id="topic" name="topic" placeholder="e.g., Artificial Intelligence in Healthcare" required>
+          </div>
 
-    <!-- Loading Spinner -->
-    <div id="loadingSpinner" class="text-center">
-      <div class="spinner-border text-light mt-3" role="status"></div>
-      <p>Generating your paper... please wait</p>
+          <div class="form-group">
+            <label for="format" class="form-label">Citation Style</label>
+            <select class="form-select" id="format" name="format">
+              <option value="ieee">IEEE Format</option>
+              <option value="apa">APA Format</option>
+              <option value="springer">Springer Format</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="length" class="form-label">Paper Length</label>
+            <select class="form-select" id="length" name="length">
+              <option value="short">Short (1-2 pages)</option>
+              <option value="medium">Medium (3-5 pages)</option>
+              <option value="long">Long (6+ pages)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="outputType" class="form-label">Output Type</label>
+            <select class="form-select" id="outputType" name="outputType">
+              <option value="summary">Executive Summary</option>
+              <option value="abstract">Abstract Only</option>
+              <option value="full">Complete Research Paper</option>
+            </select>
+          </div>
+
+          <div class="checkbox-group">
+            <input class="form-check-input" type="checkbox" id="useMultiAgent" name="useMultiAgent">
+            <label class="form-check-label" for="useMultiAgent">
+              🤖 Enable Multi-Agent Workflow (Advanced AI Collaboration)
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <i class="bi bi-magic"></i> Generate Research Paper
+          </button>
+        </form>
+      </div>
+
+      <!-- Results Section -->
+      <div class="results-section slide-up">
+        <h2>📊 Results & Analysis</h2>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+          <div class="spinner"></div>
+        </div>
+
+        <!-- Agent Progress Section -->
+        <div id="agentProgress" class="agent-progress" style="display: none;">
+          <h3>🤖 Multi-Agent Progress</h3>
+          <div id="progressContainer"></div>
+        </div>
+
+        <!-- Result Content -->
+        <div id="result" style="display: none;">
+          <div class="result-content">
+            <h3>📄 Generated Research Paper</h3>
+            <div id="paperContent">Your research paper will appear here...</div>
+          </div>
+
+          <!-- Visualization Section -->
+          <div id="visualizationSection" class="visualization-container" style="display: none;">
+            <h4>📊 Data Visualization</h4>
+            <img id="visualizationImg" alt="Research Paper Visualization">
+          </div>
+
+          <!-- Export Options -->
+          <div id="exportSection" style="display: none;">
+            <h4>📤 Export Your Paper</h4>
+            <div class="export-buttons">
+              <button id="downloadBtn" class="btn-secondary">
+                <i class="bi bi-download"></i> Download TXT
+              </button>
+              <button id="exportPdfBtn" class="btn-danger">
+                <i class="bi bi-file-earmark-pdf"></i> Export PDF
+              </button>
+              <button id="exportLatexBtn" class="btn-info">
+                <i class="bi bi-file-earmark-code"></i> Export LaTeX
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Result Section -->
-    <div id="result">
-      <h5>📄 Generated Paper:</h5>
-      <p id="paperContent">Your paper will appear here...</p>
-    </div>
+    <!-- Features Section -->
+    <section id="features" style="padding: 100px 0; background: rgba(255, 255, 255, 0.05);">
+      <div style="text-align: center; margin-bottom: 60px;">
+        <h2 style="font-size: 3rem; font-weight: 800; color: white; margin-bottom: 20px;">🚀 Powerful Features</h2>
+        <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto;">
+          Discover the advanced capabilities that make our AI Research Paper Writer the perfect tool for academic excellence
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 3rem; margin-bottom: 20px;">🤖</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Multi-Agent Workflow</h3>
+          <p style="color: #4a5568; line-height: 1.6;">Advanced AI collaboration with specialized agents for research, writing, editing, and review to ensure the highest quality output.</p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 3rem; margin-bottom: 20px;">📄</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Multiple Export Formats</h3>
+          <p style="color: #4a5568; line-height: 1.6;">Export your research papers in PDF, LaTeX, and plain text formats with proper academic formatting and citations.</p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 3rem; margin-bottom: 20px;">📊</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Data Visualization</h3>
+          <p style="color: #4a5568; line-height: 1.6;">Generate insightful charts and visualizations to complement your research papers and enhance data presentation.</p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 3rem; margin-bottom: 20px;">🎯</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Citation Styles</h3>
+          <p style="color: #4a5568; line-height: 1.6;">Support for IEEE, APA, and Springer citation formats with automatic formatting and reference generation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="padding: 100px 0; background: rgba(255, 255, 255, 0.08);">
+      <div style="text-align: center; margin-bottom: 60px;">
+        <h2 style="font-size: 3rem; font-weight: 800; color: white; margin-bottom: 20px;">👥 About Us</h2>
+        <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.9); max-width: 800px; margin: 0 auto;">
+          Meet the talented developers behind this innovative AI-powered research paper writing tool
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1000px; margin: 0 auto;">
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">👨‍💻</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 10px;">Harivarman</h3>
+          <p style="color: #4a5568; font-weight: 500;">Lead Developer</p>
+          <p style="color: #718096; margin-top: 10px; line-height: 1.6;">Expert in AI/ML development and full-stack engineering with a passion for creating innovative academic tools.</p>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #764ba2, #f093fb); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">👨‍🎨</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 10px;">Ravin</h3>
+          <p style="color: #4a5568; font-weight: 500;">UI/UX Designer</p>
+          <p style="color: #718096; margin-top: 10px; line-height: 1.6;">Creative designer specializing in modern web interfaces and user experience design for academic applications.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section style="padding: 100px 0; background: rgba(255, 255, 255, 0.05);">
+      <div style="text-align: center; margin-bottom: 60px;">
+        <h2 style="font-size: 3rem; font-weight: 800; color: white; margin-bottom: 20px;">🛠️ Support & Help</h2>
+        <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto;">
+          Get the help you need with our comprehensive support system
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 2.5rem; margin-bottom: 20px;">📚</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Documentation</h3>
+          <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">Comprehensive guides and tutorials to help you make the most of our AI Research Paper Writer.</p>
+          <button style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">View Docs</button>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 2.5rem; margin-bottom: 20px;">💬</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Community Support</h3>
+          <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">Join our community forum to connect with other users, share tips, and get peer support.</p>
+          <button style="background: linear-gradient(135deg, #764ba2, #f093fb); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Join Community</button>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 2.5rem; margin-bottom: 20px;">🎯</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 15px;">Technical Support</h3>
+          <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">Need technical assistance? Our expert team is here to help you with any issues or questions.</p>
+          <button style="background: linear-gradient(135deg, #f093fb, #667eea); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Get Support</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding: 100px 0; background: rgba(255, 255, 255, 0.08);">
+      <div style="text-align: center; margin-bottom: 60px;">
+        <h2 style="font-size: 3rem; font-weight: 800; color: white; margin-bottom: 20px;">📞 Contact Us</h2>
+        <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto;">
+          Get in touch with our team for questions, feedback, or collaboration opportunities
+        </p>
+      </div>
+
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: 20px; padding: 40px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);">
+          <div style="display: grid; gap: 30px;">
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">👨‍💻</div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 10px;">Harivarman</h3>
+              <p style="color: #4a5568; font-weight: 500; margin-bottom: 5px;">Lead Developer</p>
+              <p style="color: #718096; margin-bottom: 15px;">harivarman@example.com</p>
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <span style="color: #4a5568; font-weight: 500;">📱</span>
+                <span style="color: #2d3748; font-weight: 600;">+91 6379293576</span>
+              </div>
+            </div>
+
+            <div style="text-align: center;">
+              <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #764ba2, #f093fb); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem;">👨‍🎨</div>
+              <h3 style="font-size: 1.5rem; font-weight: 700; color: #1a202c; margin-bottom: 10px;">Ravin</h3>
+              <p style="color: #4a5568; font-weight: 500; margin-bottom: 5px;">UI/UX Designer</p>
+              <p style="color: #718096; margin-bottom: 15px;">ravin@example.com</p>
+              <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <span style="color: #4a5568; font-weight: 500;">📧</span>
+                <span style="color: #2d3748; font-weight: 600;">Contact via Email</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #e2e8f0; text-align: center;">
+            <p style="color: #4a5568; margin-bottom: 20px;">Have a question or need assistance?</p>
+            <button style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+              Send us a Message
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 AI Research Paper Writer | Developed by Harivarman & Ravin | Advanced AI-Powered Academic Writing Assistant</p>
+    </footer>
   </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 AI Research Paper Writer | Hackathon Project</p>
-  </footer>
 
   <script>
     const form = document.getElementById("paperForm");
-    const spinner = document.getElementById("loadingSpinner");
+    const loadingOverlay = document.getElementById("loadingOverlay");
     const result = document.getElementById("result");
     const paperContent = document.getElementById("paperContent");
+    const agentProgress = document.getElementById("agentProgress");
+    const progressContainer = document.getElementById("progressContainer");
+    const visualizationSection = document.getElementById("visualizationSection");
+    const visualizationImg = document.getElementById("visualizationImg");
+    const exportSection = document.getElementById("exportSection");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const exportPdfBtn = document.getElementById("exportPdfBtn");
+    const exportLatexBtn = document.getElementById("exportLatexBtn");
+
+    let currentPaperData = null;
 
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
-      spinner.style.display = "block";
+
+      // Show loading overlay
+      loadingOverlay.style.display = "flex";
       result.style.display = "none";
+      agentProgress.style.display = "none";
+      visualizationSection.style.display = "none";
+      exportSection.style.display = "none";
 
       const topic = document.getElementById("topic").value;
       const format = document.getElementById("format").value;
       const length = document.getElementById("length").value;
       const outputType = document.getElementById("outputType").value;
+      const useMultiAgent = document.getElementById("useMultiAgent").checked;
 
       try {
         const response = await fetch("/generate-paper", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic, format, length, outputType })
+          body: JSON.stringify({ topic, format, length, outputType, useMultiAgent })
         });
 
         const data = await response.json();
-        spinner.style.display = "none";
+        loadingOverlay.style.display = "none";
 
         if (data.success) {
+          currentPaperData = { paper: data.paper, topic };
           result.style.display = "block";
-          paperContent.innerText = data.paper;
+          paperContent.innerHTML = data.paper.replace(/\n/g, '<br>');
+          exportSection.style.display = "block";
+
+          // Show agent progress if multi-agent was used
+          if (data.agents_progress && data.agents_progress.length > 0) {
+            agentProgress.style.display = "block";
+            displayAgentProgress(data.agents_progress);
+          }
+
+          // Show visualization
+          if (data.visualization) {
+            visualizationSection.style.display = "block";
+            visualizationImg.src = data.visualization;
+          }
         } else {
           result.style.display = "block";
-          paperContent.innerText = "⚠️ Error: " + data.error;
+          paperContent.innerHTML = "<span style='color: #e53e3e;'>⚠️ Error: " + data.error + "</span>";
         }
       } catch (err) {
-        spinner.style.display = "none";
+        loadingOverlay.style.display = "none";
         result.style.display = "block";
-        paperContent.innerText = "⚠️ Request failed: " + err.message;
+        paperContent.innerHTML = "<span style='color: #e53e3e;'>⚠️ Request failed: " + err.message + "</span>";
       }
+    });
+
+    function displayAgentProgress(agents) {
+      progressContainer.innerHTML = "";
+      agents.forEach((agent, index) => {
+        setTimeout(() => {
+          const agentDiv = document.createElement("div");
+          agentDiv.className = "progress-item";
+          agentDiv.innerHTML = `<strong>${agent.agent}:</strong> <span>${agent.status}</span>`;
+          progressContainer.appendChild(agentDiv);
+        }, index * 500); // Stagger the animations
+      });
+    }
+
+    downloadBtn.addEventListener("click", function() {
+      if (!currentPaperData) return;
+      const paperText = currentPaperData.paper;
+      const blob = new Blob([paperText], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${currentPaperData.topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    exportPdfBtn.addEventListener("click", async function() {
+      if (!currentPaperData) return;
+      try {
+        const response = await fetch("/export/pdf", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(currentPaperData)
+        });
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${currentPaperData.topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        } else {
+          alert("PDF export failed. Please try again.");
+        }
+      } catch (err) {
+        alert("Export failed: " + err.message);
+      }
+    });
+
+    exportLatexBtn.addEventListener("click", async function() {
+      if (!currentPaperData) return;
+      try {
+        const response = await fetch("/export/latex", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(currentPaperData)
+        });
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${currentPaperData.topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.tex`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        } else {
+          alert("LaTeX export failed. Please try again.");
+        }
+      } catch (err) {
+        alert("Export failed: " + err.message);
+      }
+    });
+
+    // Add smooth scrolling and animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add fade-in animation to elements
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+          }
+        });
+      }, observerOptions);
+
+      // Observe all major sections
+      document.querySelectorAll('.form-section, .results-section').forEach(section => {
+        observer.observe(section);
+      });
     });
   </script>
 </body>
